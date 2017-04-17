@@ -1,17 +1,25 @@
 import {Component} from '@angular/core';
-import {NavController, AlertController,  ModalController} from 'ionic-angular';
+import {NavController, AlertController, ModalController} from 'ionic-angular';
+
+import {Projects} from '../../providers/projects';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
+  public projects: Array<any>;
 
-  constructor(
-    public navCtrl: NavController,
-    public alertCtrl: AlertController,
-    public modalCtrl: ModalController,
-  ) {}
+  constructor(public navCtrl: NavController,
+              public alertCtrl: AlertController,
+              public modalCtrl: ModalController,
+              public projectsData: Projects) {
+
+    projectsData.get().then((data) => {
+      this.projects = data;
+    });
+
+  }
 
 
   addProject() {
@@ -21,7 +29,7 @@ export class HomePage {
       message: "Enter a project name and press save button to create a new project",
       inputs: [
         {
-          name: 'projectName',
+          name: 'name',
           placeholder: 'Project Name'
         },
       ],
@@ -35,7 +43,10 @@ export class HomePage {
         {
           text: 'Save',
           handler: data => {
-            console.log('Saved clicked');
+            let sdata = this.projectsData.save({name: data.name});
+            sdata.then(res => {
+              console.log(res)
+            })
           }
         }
       ]
