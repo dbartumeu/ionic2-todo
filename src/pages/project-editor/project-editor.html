@@ -1,42 +1,42 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
+      <ng-container *ngIf="project.name">
+        {{project.name}}
+      </ng-container>
+      <ng-container *ngIf="!project.name">
+         Project Name
+      </ng-container>
+    </ion-title>
+    <ion-buttons left>
       <button ion-button clear color="dark" (click)="dismiss()">
         <ion-icon name="arrow-back"></ion-icon>
       </button>
-    </ion-title>
-    <ion-buttons start style="margin-right: 7%">
-
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button color="danger" large clear (click)="removeProject()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding class="project-editor">
 
-  <ion-grid>
-    <ion-row align-items-start>
-      <ion-col col-9>
-        <h2 style="padding-left: 20px; padding-right: 20px">{{projectName}}</h2>
-      </ion-col>
-      <ion-col col-3>
-        <button ion-button color="dark" clear (click)="renameProject()" style="padding:0 0.5em;     height: 1.5rem;">
-          <ion-icon name="create"></ion-icon>
-        </button>
-        <button ion-button color="dark" clear (click)="removeProject()" style="padding:0 0.5em;     height: 1.5rem;">
-          <ion-icon name="trash"></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-list no-lines style="margin-bottom: 40px;">
+    <ion-item>
+      <ion-input class="project-name" type="text" placeholder="Project Name" [(ngModel)]="project.name"></ion-input>
+    </ion-item>
+  </ion-list>
+
   <h5 style="padding-left: 20px; padding-right: 20px"><i>To Do</i></h5>
   <ion-list no-lines style="margin-bottom: 0">
-    <ng-container *ngFor="let task of tasks">
+    <ng-container *ngFor="let task of project.tasks">
       <ion-item *ngIf="showTaskEditor(task) && !task.completed">
         <ion-label>{{ task.name }}</ion-label>
         <ion-checkbox color="dark" [(ngModel)]="task.completed"
-                      (press)="editTask(task)" (tap)="saveTask(task)"></ion-checkbox>
-        <ion-icon name="close-circle" item-right
-                  style="font-size: 2.2rem; color:#787878; z-index:9999" (click)="removeTask(task)"></ion-icon>
+                      (press)="editTask(task)" (ionChange)="saveTask(task)"></ion-checkbox>
+        <ion-icon color="danger" class="remove-task" name="trash" item-right  (click)="removeTask(task)"></ion-icon>
       </ion-item>
       <ion-item *ngIf="!showTaskEditor(task)">
 
@@ -58,23 +58,25 @@
         </ion-list>
       </ion-col>
       <ion-col col-2>
-        <button ion-button color="dark" clear (click)="addTask()">
-          <ion-icon name="add-circle" style="font-size: 2.2rem"></ion-icon>
-        </button>
+        <ng-container *ngIf="newTask">
+          <button ion-button color="primary" clear (click)="addTask()">
+            <ion-icon  name="add-circle" style="font-size: 2.2rem"></ion-icon>
+          </button>
+        </ng-container>
+
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <h5 style="padding-left: 20px; padding-right: 20px"><i>Due</i></h5>
+  <h5 *ngIf="checkForCompletedTasks()" style="padding-left: 20px; padding-right: 20px"><i>Completed</i></h5>
 
   <ion-list no-lines style="margin-bottom: 0">
-    <ng-container *ngFor="let stask of tasks">
-      <ion-item class="task-completed" *ngIf="showTaskEditor(stask) && stask.completed">
-        <ion-label>{{ stask.name }}</ion-label>
-        <ion-checkbox color="dark" [(ngModel)]="stask.completed"
-                      (press)="editTask(stask)"></ion-checkbox>
-        <ion-icon name="close-circle" item-right
-                  style="font-size: 2.2rem; color:#787878; z-index:9999" (click)="removeTask(stask)"></ion-icon>
+    <ng-container *ngFor="let task of project.tasks">
+      <ion-item class="task-completed" *ngIf="showTaskEditor(task) && task.completed">
+        <ion-label>{{ task.name }}</ion-label>
+        <ion-checkbox color="secondary" [(ngModel)]="task.completed"
+                      (press)="editTask(task)"></ion-checkbox>
+        <ion-icon color="danger" class="remove-task" name="trash" item-right (click)="removeTask(task)"></ion-icon>
       </ion-item>
     </ng-container>
   </ion-list>

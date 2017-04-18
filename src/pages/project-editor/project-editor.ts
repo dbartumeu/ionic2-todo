@@ -8,8 +8,6 @@ import {Projects} from '../../providers/projects';
 })
 export class ProjectEditor {
   project;
-  projectName;
-  tasks;
   public newTask: string;
   public editingTask;
 
@@ -20,16 +18,22 @@ export class ProjectEditor {
               public toastCtrl: ToastController,
               public projectsData: Projects) {
 
-    let id = this.params.get('id');
-    this.tasks = [];
+    let id = this.params ? this.params.get('id') : null;
     this.newTask = '';
 
-    projectsData.get(id).then(res => {
-      this.project = res;
-      this.projectName = res.name;
-      if (res.tasks)
-        this.tasks = res.tasks;
-    })
+    //Initializing project object
+    this.project = {
+      name: '',
+      tasks: []
+    }
+
+    if (id) {
+      projectsData.get(id).then(res => {
+        this.project = res;
+        if (!this.project.tasks)
+          this.project.tasks = [];
+      });
+    }
 
   }
 
@@ -46,13 +50,12 @@ export class ProjectEditor {
 
   addTask() {
     if (this.newTask) {
-      this.tasks.push({
+      this.project.tasks.push({
         id: this.projectsData.getId(),
         name: this.newTask,
         completed: false
       });
 
-      this.project.tasks = this.tasks;
       this.saveProject((item) => {
         this.newTask = '';
       });
@@ -63,17 +66,16 @@ export class ProjectEditor {
 
 
   editTask(Task) {
-
     this.editingTask = {...Task};
     console.log(this.editingTask)
   }
 
   saveTask(Task) {
-
+    console.log(Task)
     this.saveProject((item) => {
+      console.log(item)
       this.editingTask = null;
     });
-    console.log(this.editingTask)
   }
 
   removeTask(Task) {
@@ -81,7 +83,6 @@ export class ProjectEditor {
       if (task.id == Task.id) {
         this.project.tasks.splice(i, 1);
         this.saveProject((item) => {
-          this.tasks = this.project.tasks;
           let toast = this.toastCtrl.create({
             message: 'Task ' + Task.name + ' was deleted sucessfully',
             duration: 3000
@@ -127,39 +128,25 @@ export class ProjectEditor {
     prompt.present();
   }
 
-  renameProject() {
-    let prompt = this.alertCtrl.create({
-      title: 'Rename Project',
-      message: "Enter a project name and press save button to rename the project",
-      inputs: [
-        {
-          name: 'name',
-          placeholder: 'Project Name',
-          value: this.project.name
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Save',
-          handler: data => {
-            this.project.name = this.projectName = data.name
-            this.saveProject(() => {
-            });
-          }
-        }
-      ]
-    })
-    prompt.present();
+  checkForCompletedTasks() {
+    let condition = false;
+
+    this.project.tasks.forEach(task => {
+      if (task.completed) {
+        condition = true;
+      }
+    });
+
+    return condition;
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    if (this.project.name)
+      this.saveProject(item => {
+        this.viewCtrl.dismiss();
+      })
+    else
+      this.viewCtrl.dismiss();
   }
 
 }

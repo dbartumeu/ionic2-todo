@@ -29,18 +29,17 @@ export class Projects {
 
   save(data) {
     if (data.id) {
-      return this.storage.set(data.id + '', data);
+      return this.storage.ready().then(() => this.storage.set(data.id + '', data));
     } else {
       data.id = this.getId();
-      return this.storage.set(data.id + '', data)
+      return this.storage.ready().then(() => this.storage.set(data.id + '', data));
     }
   }
 
   remove(id) {
-    return this.storage.remove(id + '').then(()=>{
-      console.log('do remove')
+    return this.storage.ready().then(() => this.storage.remove(id + '').then(() => {
       return '';
-    });
+    }));
   }
 
 }
