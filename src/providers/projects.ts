@@ -8,27 +8,20 @@ export class Projects {
   public projectsArr: Array<any>;
 
   constructor(public storage: Storage) {
-    this.projectsArr = [];
   }
 
   getId = function () {
-    var S4 = function () {
-      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-    };
-    return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+    return Date.now() + '';
   };
 
   get(id = null) {
     if (id) {
-      this.storage.ready().then(() => {
-        // Or to get a key/value pair
-        return this.storage.get(id).then(data => {
-          return data;
-        });
-      });
+      return this.storage.get(id + '');
     } else {
+      this.projectsArr = [];
       return this.storage.forEach((value, key, iterationNumber) => {
         this.projectsArr.push(value);
+      }).then(() => {
         return this.projectsArr;
       });
     }
@@ -36,15 +29,18 @@ export class Projects {
 
   save(data) {
     if (data.id) {
-      return this.storage.set(data.id, data);
+      return this.storage.set(data.id + '', data);
     } else {
       data.id = this.getId();
-      return this.storage.set(data.id, data)
+      return this.storage.set(data.id + '', data)
     }
   }
 
-  remove() {
-
+  remove(id) {
+    return this.storage.remove(id + '').then(()=>{
+      console.log('do remove')
+      return '';
+    });
   }
 
 }

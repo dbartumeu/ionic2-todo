@@ -1,11 +1,30 @@
 page-home {
-  .card {
-    padding: 0;
-    margin: 10px 0 0 0;
-    width: 100%;
+  .project-editor {
+    .scroll-content {
+      padding: 16px !important;
+    }
+    .button-clear-md-dark{
+      color: #787878;
+      font-weight: 500;
+    }
+    .item-input{
+      width: 74%;
+      margin-left: 12.5%;
+    }
 
-  }
-  .scroll-content{
-    padding: 4px !important;
+    .save-item{
+      font-size: 2.2rem;
+      color: #787878;
+      z-index: 99999;
+      position: absolute;
+      right: 7.5%;
+      margin-top: -8%;
+    }
+
+    .task-completed{
+      .label{
+        text-decoration: line-through;
+      }
+    }
   }
 }

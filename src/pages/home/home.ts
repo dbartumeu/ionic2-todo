@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, AlertController, ModalController} from 'ionic-angular';
 
 import {Projects} from '../../providers/projects';
+import {ProjectEditor} from '../project-editor/project-editor';
 
 @Component({
   selector: 'page-home',
@@ -15,15 +16,17 @@ export class HomePage {
               public modalCtrl: ModalController,
               public projectsData: Projects) {
 
-    projectsData.get().then((data) => {
-      this.projects = data;
-    });
+    this.getProjects();
 
   }
 
+  getProjects() {
+    this.projectsData.get().then((data) => {
+      this.projects = data;
+    });
+  }
 
   addProject() {
-    console.log('add project');
     let prompt = this.alertCtrl.create({
       title: 'Add Project',
       message: "Enter a project name and press save button to create a new project",
@@ -46,6 +49,7 @@ export class HomePage {
             let sdata = this.projectsData.save({name: data.name});
             sdata.then(res => {
               console.log(res)
+              this.getProjects();
             })
           }
         }
@@ -54,8 +58,12 @@ export class HomePage {
     prompt.present();
   }
 
-  editProject() {
-    console.log('tets')
+  editProject(project) {
+    let modal = this.modalCtrl.create(ProjectEditor, {id: project.id});
+    modal.onDidDismiss(data => {
+      this.getProjects();
+    });
+    modal.present();
   }
 
 }

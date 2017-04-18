@@ -1,76 +1,81 @@
 <ion-header>
-  <ion-navbar>
+  <ion-toolbar>
     <ion-title>
-      Projects
+      <button ion-button clear color="dark" (click)="dismiss()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
     </ion-title>
-  </ion-navbar>
+    <ion-buttons start style="margin-right: 7%">
+
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-fab right bottom>
-  <button ion-fab color="light"><ion-icon name="add" (click)="editProject()"></ion-icon></button>
-</ion-fab>
+<ion-content padding class="project-editor">
 
-<ion-content padding>
   <ion-grid>
     <ion-row align-items-start>
-      <ion-col col-6 col-sm-6>
-        <ion-card (click)="editProject()">
-
-          <ion-card-header>
-            1 of 4
-          </ion-card-header>
-
-          <ion-card-content>
-            test 1 of 4
-
-            ds
-            ha
-            fds
-            h
-            dsfj
-            sdf
-          </ion-card-content>
-
-        </ion-card>
-
-        <ion-card>
-
-          <ion-card-header>
-            3 of 4
-          </ion-card-header>
-
-          <ion-card-content>
-            test 3 of 4
-          </ion-card-content>
-
-        </ion-card>
+      <ion-col col-9>
+        <h2 style="padding-left: 20px; padding-right: 20px">{{projectName}}</h2>
       </ion-col>
-      <ion-col col-6 col-sm-6>
-        <ion-card>
-
-          <ion-card-header>
-            2 of 4
-          </ion-card-header>
-
-          <ion-card-content>
-            test 2 of 4
-          </ion-card-content>
-
-        </ion-card>
-
-        <ion-card>
-
-          <ion-card-header>
-            4 of 4
-          </ion-card-header>
-
-          <ion-card-content>
-            test 4 of 4
-          </ion-card-content>
-
-        </ion-card>
-
+      <ion-col col-3>
+        <button ion-button color="dark" clear (click)="renameProject()" style="padding:0 0.5em;     height: 1.5rem;">
+          <ion-icon name="create"></ion-icon>
+        </button>
+        <button ion-button color="dark" clear (click)="removeProject()" style="padding:0 0.5em;     height: 1.5rem;">
+          <ion-icon name="trash"></ion-icon>
+        </button>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <h5 style="padding-left: 20px; padding-right: 20px"><i>To Do</i></h5>
+  <ion-list no-lines style="margin-bottom: 0">
+    <ng-container *ngFor="let task of tasks">
+      <ion-item *ngIf="showTaskEditor(task) && !task.completed">
+        <ion-label>{{ task.name }}</ion-label>
+        <ion-checkbox color="dark" [(ngModel)]="task.completed"
+                      (press)="editTask(task)" (tap)="saveTask(task)"></ion-checkbox>
+        <ion-icon name="close-circle" item-right
+                  style="font-size: 2.2rem; color:#787878; z-index:9999" (click)="removeTask(task)"></ion-icon>
+      </ion-item>
+      <ion-item *ngIf="!showTaskEditor(task)">
+
+        <ion-input type="text" placeholder="Editing Task"
+                   [(ngModel)]="task.name"></ion-input>
+
+      </ion-item>
+      <ion-icon class="save-item" *ngIf="!showTaskEditor(task)" name="checkmark" item-right
+                (click)="saveTask(task)"></ion-icon>
+    </ng-container>
+  </ion-list>
+  <ion-grid>
+    <ion-row align-items-start>
+      <ion-col col-10>
+        <ion-list no-lines>
+          <ion-item>
+            <ion-input type="text" placeholder="New Task" [(ngModel)]="newTask"></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button color="dark" clear (click)="addTask()">
+          <ion-icon name="add-circle" style="font-size: 2.2rem"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <h5 style="padding-left: 20px; padding-right: 20px"><i>Due</i></h5>
+
+  <ion-list no-lines style="margin-bottom: 0">
+    <ng-container *ngFor="let stask of tasks">
+      <ion-item class="task-completed" *ngIf="showTaskEditor(stask) && stask.completed">
+        <ion-label>{{ stask.name }}</ion-label>
+        <ion-checkbox color="dark" [(ngModel)]="stask.completed"
+                      (press)="editTask(stask)"></ion-checkbox>
+        <ion-icon name="close-circle" item-right
+                  style="font-size: 2.2rem; color:#787878; z-index:9999" (click)="removeTask(stask)"></ion-icon>
+      </ion-item>
+    </ng-container>
+  </ion-list>
 </ion-content>

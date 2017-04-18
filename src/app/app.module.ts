@@ -9,11 +9,13 @@ import {Projects} from '../providers/projects';
 
 import {MyApp} from './app.component';
 import {HomePage} from '../pages/home/home';
+import {ProjectEditor} from '../pages/project-editor/project-editor';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    ProjectEditor
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,8 @@ import {HomePage} from '../pages/home/home';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    ProjectEditor
   ],
   providers: [
     StatusBar,
