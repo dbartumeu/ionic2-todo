@@ -16,4 +16,12 @@ page-home {
       color: #333;
     }
   }
+
+  .taskcompleted {
+    text-decoration: line-through;
+  }
+
+  .taskname {
+    margin-left: 5px
+  }
 }

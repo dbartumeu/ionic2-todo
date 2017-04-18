@@ -26,11 +26,21 @@
             <ion-card-content>
               <ng-container *ngIf="project.tasks">
                 <div *ngFor="let task of project.tasks; let i=index">
-                  <span *ngIf="i<6">{{task.name}}</span>
+                  <div *ngIf="i<6">
+                    <ion-icon name="ios-radio-button-off" *ngIf="!task.completed"></ion-icon>
+                    <ion-icon name="checkmark-circle-outline" *ngIf="task.completed"></ion-icon>
+                    <span class="taskname" [ngClass]="{'taskcompleted': task.completed}">{{task.name}}</span>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="!project.tasks">
+                <div style="text-align: center; color:#d6d6da">
+                  <ion-icon name="add"></ion-icon><br>
+                  <span>Tap here to add tasks</span><br><br>
                 </div>
               </ng-container>
             </ion-card-content>
-
           </ion-card>
         </ng-container>
 
@@ -44,7 +54,19 @@
             </ion-card-header>
 
             <ion-card-content>
-              {{project.tasks}} {{odd}}
+              <ng-container *ngIf="project.tasks">
+                <div *ngFor="let task of projectr.tasks; let i=index">
+                  <span *ngIf="i<6">{{task.name}}</span>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="!project.tasks">
+                <div style="text-align: center; color:#d6d6da">
+                  <ion-icon name="add"></ion-icon><br>
+                  <span>Tap here to add tasks</span><br><br>
+                </div>
+              </ng-container>
+
             </ion-card-content>
 
           </ion-card>
