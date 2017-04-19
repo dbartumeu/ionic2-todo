@@ -104,6 +104,7 @@ export class ProjectEditor {
   }
 
   /**
+   * TODO Add pipe to filter this
    * Return true if Task is being edited
    * @param Task
    * @returns {boolean}

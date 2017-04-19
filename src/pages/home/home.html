@@ -1,15 +1,14 @@
 <ion-header>
   <ion-navbar color="yellow">
     <ion-title>
-      Projects
+      Ionic ToDo App
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-<div class="flex-masonry-grid">
-  <ng-container *ngFor="let project of projects;">
-    <ion-card (tap)="addEditProject(project)">
+  <div class="flex-masonry-grid">
+    <ion-card *ngFor="let project of projects;" (tap)="addEditProject(project)">
       <ion-card-header>
         <h1>{{project.name}}</h1>
       </ion-card-header>
@@ -25,19 +24,15 @@
           </div>
         </ng-container>
 
-        <ng-container *ngIf="project.tasks.length==0">
-          <div style="text-align: center; color:#d6d6da">
-            <ion-icon name="add"></ion-icon>
-            <br>
+          <div class="taskempty" *ngIf="project.tasks.length==0">
+            <ion-icon name="add"></ion-icon><br>
             <span>Tap here to add tasks</span><br><br>
           </div>
-        </ng-container>
+
       </ion-card-content>
     </ion-card>
-  </ng-container>
-</div>
+  </div>
 </ion-content>
-
 
 <ion-fab right bottom (tap)="addEditProject(project)">
   <button ion-fab color="danger">
