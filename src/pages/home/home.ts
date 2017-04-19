@@ -13,11 +13,11 @@ export class HomePage {
 
   constructor(public navCtrl: NavController,
               public projectsData: Projects) {
-
-    // this.getProjects();
-
   }
 
+  /**
+   * Get all projects from storage
+   */
   getProjects() {
     this.projectsData.get().then((data) => {
       this.projects = data;
@@ -38,8 +38,10 @@ export class HomePage {
 
   }
 
+  /**
+   * Reload projects every time the view is active
+   */
   ionViewWillEnter() {
-    console.log('leave')
     this.getProjects();
   }
 

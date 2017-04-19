@@ -1,19 +1,19 @@
 page-home {
+
+  .content {
+    background: #ECEFF1;
+  }
+
   .card {
     padding: 0;
-    margin: 10px 0 0 0;
+    margin: 5px;
     width: 100%;
 
-  }
-  .scroll-content {
-    padding: 4px !important;
-  }
-
-  .card-header {
-    h1 {
-      font-size: 2rem;
-      font-weight: 600;
-      color: #333;
+    .card-header {
+      h1 {
+        font-size: 2rem;
+        color: #333;
+      }
     }
   }
 
@@ -24,4 +24,22 @@ page-home {
   .taskname {
     margin-left: 5px;
   }
+
+  ion-content {
+    .flex-masonry-grid {
+      padding: 4px 2px 4px 4px;
+      -moz-column-count: 2;
+      -webkit-column-count: 2;
+      column-count: 2;
+      -moz-column-gap: 1px;
+      -webkit-column-gap: 1px;
+      column-gap: 1px;
+      ion-card {
+        display: inline-block;
+        margin: 2px;
+        width: calc(100% - 6px);
+      }
+    }
+  }
+
 }

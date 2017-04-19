@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {NavParams, ViewController, ToastController, AlertController} from 'ionic-angular';
+import {NavParams, NavController, ToastController, AlertController} from 'ionic-angular';
 import {Projects} from '../../providers/projects';
 
 @Component({
-  selector: 'page-home',
+  selector: 'page-project-editor',
   templateUrl: 'project-editor.html'
 })
 export class ProjectEditor {
@@ -14,18 +14,17 @@ export class ProjectEditor {
 
   constructor(public params: NavParams,
               public alertCtrl: AlertController,
-              public viewCtrl: ViewController,
+              public navCtrl: NavController,
               public toastCtrl: ToastController,
               public projectsData: Projects) {
 
     let id = this.params ? this.params.get('id') : null;
     this.newTask = '';
 
-    //Initializing project object
     this.project = {
       name: '',
-      tasks: []
-    }
+      tasks: [],
+    };
 
     if (id) {
       projectsData.get(id).then(res => {
@@ -47,7 +46,9 @@ export class ProjectEditor {
     })
   }
 
-
+  /**
+   * Add new Task to the current project
+   */
   addTask() {
     if (this.newTask) {
       this.project.tasks.push({
@@ -56,7 +57,7 @@ export class ProjectEditor {
         completed: false
       });
 
-      this.saveProject((item) => {
+      this.saveProject(() => {
         this.newTask = '';
       });
     } else {
@@ -65,24 +66,33 @@ export class ProjectEditor {
   }
 
 
+  /**
+   * Start editing Tag
+   * @param Task
+   */
   editTask(Task) {
     this.editingTask = {...Task};
     console.log(this.editingTask)
   }
 
-  saveTask(Task) {
-    console.log(Task)
-    this.saveProject((item) => {
-      console.log(item)
+  /**
+   * An Alias to saveProject, the project is saved every time a task is saved
+   */
+  saveTask() {
+    this.saveProject(() => {
       this.editingTask = null;
     });
   }
 
+  /**
+   * Remove task from current project
+   * @param Task
+   */
   removeTask(Task) {
     this.project.tasks.forEach((task, i) => {
       if (task.id == Task.id) {
         this.project.tasks.splice(i, 1);
-        this.saveProject((item) => {
+        this.saveProject(() => {
           let toast = this.toastCtrl.create({
             message: 'Task ' + Task.name + ' was deleted sucessfully',
             duration: 3000
@@ -93,6 +103,11 @@ export class ProjectEditor {
     });
   }
 
+  /**
+   * Return true if Task is being edited
+   * @param Task
+   * @returns {boolean}
+   */
   showTaskEditor(Task) {
 
     if (this.editingTask && (Task.id == this.editingTask.id))
@@ -102,6 +117,10 @@ export class ProjectEditor {
 
   }
 
+
+  /**
+   * Remove project from storage
+   */
   removeProject() {
     let prompt = this.alertCtrl.create({
       title: 'Remove Project',
@@ -118,7 +137,12 @@ export class ProjectEditor {
           handler: data => {
             console.log(this.project.id);
             this.projectsData.remove(this.project.id).then(() => {
-              this.viewCtrl.dismiss();
+              this.project = {
+                name: null,
+                tasks: []
+              }
+              ;
+              this.navCtrl.pop();
             })
 
           }
@@ -128,6 +152,10 @@ export class ProjectEditor {
     prompt.present();
   }
 
+  /**
+   *
+   * @returns {boolean}
+   */
   checkForCompletedTasks() {
     let condition = false;
 
@@ -140,13 +168,15 @@ export class ProjectEditor {
     return condition;
   }
 
-  dismiss() {
-    if (this.project.name)
-      this.saveProject(item => {
-        this.viewCtrl.dismiss();
-      })
-    else
-      this.viewCtrl.dismiss();
+  /**
+   * Leave current view
+   */
+  ionViewCanLeave() {
+    if (this.project.name) {
+      console.log(this.project.name)
+      this.saveProject(() => {
+      });
+    }
   }
 
 }

@@ -1,80 +1,46 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="yellow">
     <ion-title>
       Projects
     </ion-title>
   </ion-navbar>
 </ion-header>
 
+<ion-content>
+<div class="flex-masonry-grid">
+  <ng-container *ngFor="let project of projects;">
+    <ion-card (tap)="addEditProject(project)">
+      <ion-card-header>
+        <h1>{{project.name}}</h1>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ng-container *ngIf="project.tasks">
+          <div *ngFor="let task of project.tasks; let i=index">
+            <div *ngIf="i<6">
+              <ion-icon name="square-outline" *ngIf="!task.completed"></ion-icon>
+              <ion-icon name="checkbox" *ngIf="task.completed"></ion-icon>
+              <span class="taskname" [ngClass]="{'taskcompleted': task.completed}">{{task.name}}</span>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="project.tasks.length==0">
+          <div style="text-align: center; color:#d6d6da">
+            <ion-icon name="add"></ion-icon>
+            <br>
+            <span>Tap here to add tasks</span><br><br>
+          </div>
+        </ng-container>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+</div>
+</ion-content>
+
+
 <ion-fab right bottom (tap)="addEditProject(project)">
-  <button ion-fab color="primary">
+  <button ion-fab color="danger">
     <ion-icon name="add"></ion-icon>
   </button>
 </ion-fab>
-
-<ion-content padding>
-  <ion-grid>
-    <ion-row align-items-start>
-      <ion-col col-6 col-sm-6>
-        <ng-container *ngFor="let project of projects;let even=even;">
-          <ion-card *ngIf="even" (tap)="addEditProject(project)">
-
-            <ion-card-header>
-              <h1>{{project.name}}</h1>
-            </ion-card-header>
-
-            <ion-card-content>
-              <ng-container *ngIf="project.tasks">
-                <div *ngFor="let task of project.tasks; let i=index">
-                  <div *ngIf="i<6">
-                    <ion-icon name="ios-radio-button-off" *ngIf="!task.completed"></ion-icon>
-                    <ion-icon name="checkmark-circle-outline" *ngIf="task.completed"></ion-icon>
-                    <span class="taskname" [ngClass]="{'taskcompleted': task.completed}">{{task.name}}</span>
-                  </div>
-                </div>
-              </ng-container>
-
-              <ng-container *ngIf="project.tasks.length==0">
-                <div style="text-align: center; color:#d6d6da">
-                  <ion-icon name="add"></ion-icon><br>
-                  <span>Tap here to add tasks</span><br><br>
-                </div>
-              </ng-container>
-            </ion-card-content>
-          </ion-card>
-        </ng-container>
-
-      </ion-col>
-      <ion-col col-6 col-sm-6>
-        <ng-container *ngFor="let project of projects; let odd=odd;">
-          <ion-card *ngIf="odd" (tap)="addEditProject(project)">
-
-            <ion-card-header>
-              <h1>{{project.name}}</h1>
-            </ion-card-header>
-
-            <ion-card-content>
-              <ng-container *ngIf="project.tasks">
-                <div *ngFor="let task of project.tasks; let i=index">
-                  <div *ngIf="i<6">
-                    <ion-icon name="ios-radio-button-off" *ngIf="!task.completed"></ion-icon>
-                    <ion-icon name="checkmark-circle-outline" *ngIf="task.completed"></ion-icon>
-                    <span class="taskname" [ngClass]="{'taskcompleted': task.completed}">{{task.name}}</span>
-                  </div>
-                </div>
-              </ng-container>
-
-              <ng-container *ngIf="project.tasks.length==0">
-                <div style="text-align: center; color:#d6d6da">
-                  <ion-icon name="add"></ion-icon><br>
-                  <span>Tap here to add tasks</span><br><br>
-                </div>
-              </ng-container>
-            </ion-card-content>
-
-          </ion-card>
-        </ng-container>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-content>
