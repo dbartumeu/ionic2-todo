@@ -4,6 +4,7 @@ import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {StatusBar} from '@ionic-native/status-bar';
 import {IonicStorageModule} from '@ionic/storage';
+import { MasonryModule } from 'angular2-masonry';
 
 import {Projects} from '../providers/projects';
 
@@ -22,7 +23,8 @@ import {ProjectEditor} from '../pages/project-editor/project-editor';
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot({
       name: '_todoDb',
-    })
+    }),
+    MasonryModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

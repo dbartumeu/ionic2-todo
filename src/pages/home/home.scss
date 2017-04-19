@@ -29,22 +29,4 @@ page-home {
     text-align: center;
     color:#d6d6da
   }
-
-  ion-content {
-    .flex-masonry-grid {
-      padding: 4px 2px 4px 4px;
-      -moz-column-count: 2;
-      -webkit-column-count: 2;
-      column-count: 2;
-      -moz-column-gap: 1px;
-      -webkit-column-gap: 1px;
-      column-gap: 1px;
-      ion-card {
-        display: inline-block;
-        margin: 2px;
-        width: calc(100% - 6px);
-      }
-    }
-  }
-
 }

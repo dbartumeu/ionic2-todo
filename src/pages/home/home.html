@@ -7,31 +7,33 @@
 </ion-header>
 
 <ion-content>
-  <div class="flex-masonry-grid">
-    <ion-card *ngFor="let project of projects;" (tap)="addEditProject(project)">
-      <ion-card-header>
-        <h1>{{project.name}}</h1>
-      </ion-card-header>
+  <masonry>
+    <masonry-brick *ngFor="let project of projects;" (tap)="addEditProject(project)">
+      <ion-card [style.width]="cardWith">
+        <ion-card-header>
+          <h1>{{project.name}}</h1>
+        </ion-card-header>
 
-      <ion-card-content>
-        <ng-container *ngIf="project.tasks">
-          <div *ngFor="let task of project.tasks; let i=index">
-            <div *ngIf="i<6">
-              <ion-icon name="square-outline" *ngIf="!task.completed"></ion-icon>
-              <ion-icon name="checkbox" *ngIf="task.completed"></ion-icon>
-              <span class="taskname" [ngClass]="{'taskcompleted': task.completed}">{{task.name}}</span>
+        <ion-card-content>
+          <ng-container *ngIf="project.tasks">
+            <div *ngFor="let task of project.tasks; let i=index">
+              <div *ngIf="i<6">
+                <ion-icon name="square-outline" *ngIf="!task.completed"></ion-icon>
+                <ion-icon name="checkbox" *ngIf="task.completed"></ion-icon>
+                <span class="taskname" [ngClass]="{'taskcompleted': task.completed}">{{task.name}}</span>
+              </div>
             </div>
-          </div>
-        </ng-container>
+          </ng-container>
 
           <div class="taskempty" *ngIf="project.tasks.length==0">
             <ion-icon name="add"></ion-icon><br>
             <span>Tap here to add tasks</span><br><br>
           </div>
 
-      </ion-card-content>
-    </ion-card>
-  </div>
+        </ion-card-content>
+      </ion-card>
+    </masonry-brick>
+  </masonry>
 </ion-content>
 
 <ion-fab right bottom (tap)="addEditProject(project)">
