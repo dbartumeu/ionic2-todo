@@ -22,10 +22,10 @@ export class HomePage {
     this.cardWith = this.getCardWidth();
   }
 
-  onResize() {
-    this.cardWith = this.getCardWidth();
-  }
-
+  /**
+   * Get card width
+   * @returns {string}
+   */
   getCardWidth() {
     let currentWidth = this.plt.width();
     if (currentWidth < 400) {
@@ -66,6 +66,13 @@ export class HomePage {
       this.navCtrl.push(ProjectEditor, {id: null});
 
 
+  }
+
+  /**
+   * Adjust card wisth on resize
+   */
+  onResize() {
+    this.cardWith = this.getCardWidth();
   }
 
   /**

@@ -11,7 +11,6 @@ export class ProjectEditor {
   public newTask: string;
   public editingTask;
 
-
   constructor(public params: NavParams,
               public alertCtrl: AlertController,
               public navCtrl: NavController,
@@ -65,16 +64,6 @@ export class ProjectEditor {
     }
   }
 
-
-  /**
-   * Start editing Tag
-   * @param Task
-   */
-  editTask(Task) {
-    this.editingTask = {...Task};
-    console.log(this.editingTask)
-  }
-
   /**
    * An Alias to saveProject, the project is saved every time a task is saved
    */
@@ -118,7 +107,6 @@ export class ProjectEditor {
 
   }
 
-
   /**
    * Remove project from storage
    */
@@ -154,7 +142,7 @@ export class ProjectEditor {
   }
 
   /**
-   *
+   * Check if at least one task is completed
    * @returns {boolean}
    */
   checkForCompletedTasks() {
