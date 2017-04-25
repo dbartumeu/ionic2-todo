@@ -7,7 +7,7 @@ import {Projects} from '../../providers/projects';
   templateUrl: 'project-editor.html'
 })
 export class ProjectEditor {
-  project;
+  project: any;
   public newTask: string;
   public editingTask;
 
@@ -162,7 +162,6 @@ export class ProjectEditor {
    */
   ionViewCanLeave() {
     if (this.project.name) {
-      console.log(this.project.name)
       this.saveProject(() => {
       });
     }

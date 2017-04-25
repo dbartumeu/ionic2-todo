@@ -12,27 +12,22 @@
 </ion-header>
 
 <ion-content padding-vertical>
-
   <ion-list no-lines>
-    <ion-item>
+    <ion-item id="project-title">
       <ion-input class="project-name" type="text" placeholder="Project Name" [(ngModel)]="project.name"></ion-input>
     </ion-item>
-    <ion-list-header>
-      To Do
-    </ion-list-header>
     <ng-container *ngFor="let task of project.tasks">
       <ion-item *ngIf="showTaskEditor(task) && !task.completed">
-        <button ion-button icon-only item-left clear color="dark" (click)="task.completed=true" style="z-index: 10000">
+        <button class="task-check-empty" ion-button icon-only item-left clear color="dark" (click)="task.completed=true">
           <ion-icon name="square-outline"></ion-icon>
         </button>
-        <!--<ion-checkbox color="dark" item-left [(ngModel)]="task.completed" (ionChange)="saveTask(task)"></ion-checkbox>-->
         <ion-input type="text" placeholder="Task" [(ngModel)]="task.name"></ion-input>
         <button ion-button icon-only item-right clear color="dark" (click)="removeTask(task)">
           <ion-icon name="close-circle"></ion-icon>
         </button>
       </ion-item>
     </ng-container>
-    <ion-item>
+    <ion-item id="task-title">
       <ion-input type="text" placeholder="Add Task" [(ngModel)]="newTask"></ion-input>
       <button ion-button icon-only item-right clear color="dark" (click)="addTask()">
         <ion-icon name="add"></ion-icon>

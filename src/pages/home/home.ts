@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {Platform} from 'ionic-angular';
 
 import {Projects} from '../../providers/projects';
 import {ProjectEditor} from '../project-editor/project-editor';
@@ -8,41 +7,12 @@ import {ProjectEditor} from '../project-editor/project-editor';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  host: {
-    '(window:resize)': 'onResize($event)'
-  }
 })
 export class HomePage {
   public projects: Array<any>;
-  public cardWith: string;
 
   constructor(public navCtrl: NavController,
-              public plt: Platform,
               public projectsData: Projects) {
-    this.cardWith = this.getCardWidth();
-  }
-
-  /**
-   * Get card width
-   * @returns {string}
-   */
-  getCardWidth() {
-    let currentWidth = this.plt.width();
-    if (currentWidth < 400) {
-      return (currentWidth / 2 - 10) + 'px'
-    }
-    if (currentWidth < 700) {
-      return (currentWidth / 3 - 10) + 'px'
-    }
-    if (currentWidth < 1000) {
-      return (currentWidth / 4 - 10) + 'px'
-    }
-    if (currentWidth < 1200) {
-      return (currentWidth / 5 - 10) + 'px'
-    }
-    if (currentWidth > 1200) {
-      return (currentWidth / 5 - 30) + 'px'
-    }
   }
 
   /**
@@ -64,15 +34,6 @@ export class HomePage {
       this.navCtrl.push(ProjectEditor, {id: project.id});
     else
       this.navCtrl.push(ProjectEditor, {id: null});
-
-
-  }
-
-  /**
-   * Adjust card wisth on resize
-   */
-  onResize() {
-    this.cardWith = this.getCardWidth();
   }
 
   /**

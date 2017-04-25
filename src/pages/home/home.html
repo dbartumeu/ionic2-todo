@@ -9,7 +9,7 @@
 <ion-content>
   <masonry>
     <masonry-brick *ngFor="let project of projects;" (click)="addEditProject(project)">
-      <ion-card [style.width]="cardWith">
+      <ion-card>
         <ion-card-header>
           <h1>{{project.name}}</h1>
         </ion-card-header>
