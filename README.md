@@ -1,5 +1,5 @@
 # Ionic 2 ToDo App
-A simple to-do app to test ionic 2 functionalities
+A simple to-do app to test ionic 2 functionalities. Demo [here](https://dbartumeu.github.io/ionic2-todo/).
 
 
 ### Installation & Development
